@@ -3,6 +3,14 @@ The program searches sensitive files of website automatically, such as backup fi
 
 Put your victim list in file listsites.txt and start the program. It will auto start at windows startup.
 
+# Features
+
+- When it found a sensitive file or folder, a message box will appear with the link.
+
+- It's will download zip files (they are usually the backup files), listed in downloads.txt file.
+
+- Auto change User Agent.
+
 # Author: nonameHDT
 Email: nonameanbu@gmail.com
 
