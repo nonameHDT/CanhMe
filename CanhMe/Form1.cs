@@ -8,6 +8,11 @@ using Microsoft.Win32;
 
 namespace CanhMe
 {
+	/*	Author: nonameHDT
+	 *	Email: nonameanbu@gmail.com
+	 *  Facebook: https://www.facebook.com/hung.de.tien.175
+	 *	Release date: 09/09/2016
+	 */
     public partial class Form1 : Form
     {
 		List<string> lstAgents = new List<string>();

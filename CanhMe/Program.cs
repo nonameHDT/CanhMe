@@ -14,6 +14,11 @@ namespace CanhMe
         [STAThread]
         static void Main()
         {
+			/*	Author: nonameHDT
+			 *	Email: nonameanbu@gmail.com
+			 *  Facebook: https://www.facebook.com/hung.de.tien.175
+			 *	Release date: 09/09/2016
+			 */
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
