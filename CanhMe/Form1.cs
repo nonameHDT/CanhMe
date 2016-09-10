@@ -16,6 +16,7 @@ namespace CanhMe
     public partial class Form1 : Form
     {
 		List<string> lstAgents = new List<string>();
+		bool running;
 
         public Form1()
         {
@@ -27,6 +28,7 @@ namespace CanhMe
         private void Form1_Load(object sender, EventArgs e)
         {
 			lstAgents = new List<string>();
+			running = true;
 
 			timer1.Interval = 3600000;
 			mnuStart_Click(null, null);
@@ -40,11 +42,13 @@ namespace CanhMe
         private void mnuStart_Click(object sender, EventArgs e)
         {
 			timer1.Start();
-        }
+			running = false;
+		}
 
 		private void mnuStop_Click(object sender, EventArgs e)
 		{
 			timer1.Stop();
+			running = false;
 		}
 
 		private void mnuRestart_Click(object sender, EventArgs e)
@@ -62,7 +66,8 @@ namespace CanhMe
 
 		private void Run()
 		{
-			Hide();
+			this.Hide(); // hide form
+
 			if (File.Exists("agents.txt") && File.Exists("listsites.txt") && File.Exists("folders.txt") && File.Exists("files.txt") && File.Exists("excludes.txt"))
 			{
 				lstAgents.Clear();
@@ -108,43 +113,50 @@ namespace CanhMe
 
 					string url = MakeUrl(site);
 
-					foreach (string sub in domainsplit)
+					if (running)
 					{
-						if (!lstExcludes.Contains(url + sub))
+						foreach (string sub in domainsplit)
 						{
-							if (CheckUrlExists(url + sub))
+							if (!lstExcludes.Contains(url + sub))
 							{
-								MessageBox.Show("Found: " + url + sub);
-							}
-						}
-					}
-
-					foreach (string link in lstLinks)
-					{
-						if (!lstExcludes.Contains(url + link))
-						{
-							if (CheckUrlExists(url + link))
-							{
-								MessageBox.Show("Found: " + url + link);
-							}
-						}
-					}
-
-					foreach (string download in lstDownloads)
-					{
-						if (download != "")
-						{
-							if (!lstExcludes.Contains(url + download))
-							{
-								if (CheckUrlExists(url + download))
+								if (CheckUrlExists(url + sub))
 								{
-									MessageBox.Show("Found: " + url + download);
-									WebClient client = new WebClient();
-									client.DownloadFileAsync(new Uri(url + download), site.Replace("\\", "").Replace("/", "") + " " + download);
+									MessageBox.Show("Found: " + url + sub);
+								}
+							}
+						}
+
+						foreach (string link in lstLinks)
+						{
+							if (!lstExcludes.Contains(url + link))
+							{
+								if (CheckUrlExists(url + link))
+								{
+									MessageBox.Show("Found: " + url + link);
+								}
+							}
+						}
+
+						foreach (string download in lstDownloads)
+						{
+							if (download != "")
+							{
+								if (!lstExcludes.Contains(url + download))
+								{
+									if (CheckUrlExists(url + download))
+									{
+										MessageBox.Show("Found: " + url + download);
+										WebClient client = new WebClient();
+										client.DownloadFileAsync(new Uri(url + download), site.Replace("\\", "").Replace("/", "") + " " + download);
+									}
 								}
 							}
 						}
 					}
+                    else
+                    {
+                        return;
+                    }
 				}
 			}
 			else
